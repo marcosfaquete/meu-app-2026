@@ -70,7 +70,7 @@ export default function DashboardPage() {
 
           <div className="bg-[rgba(34,21,145,0.1)] backdrop-blur-sm rounded-lg p-8 border border-[rgba(34,21,145,0.3)]">
             <h2 className="text-3xl font-bold text-[#86af13] mb-4 text-center">
-              Dashboard
+              Área VIP
             </h2>
 
             {isLoading && (
