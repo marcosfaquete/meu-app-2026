@@ -24,16 +24,26 @@ export interface LoginResult {
 export async function registerUser(
   formData: FormData
 ): Promise<RegisterResult> {
-  const name = formData.get('name') as string;
-  const email = formData.get('email') as string;
-  const nick = formData.get('nick') as string;
-  const password = formData.get('password') as string;
+  // Normaliza e limpa os campos vindos do formulário
+  const name = (formData.get('name') as string | null)?.trim() || '';
+  const email = (formData.get('email') as string | null)?.trim().toLowerCase() || '';
+  const nick = (formData.get('nick') as string | null)?.trim() || '';
+  const password = (formData.get('password') as string | null) || '';
 
   // Validação básica
   if (!name || !email || !nick || !password) {
     return {
       success: false,
       message: 'Todos os campos são obrigatórios.',
+    };
+  }
+
+  // Validação simples de formato de email antes de chamar o Supabase
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  if (!emailRegex.test(email)) {
+    return {
+      success: false,
+      message: 'Formato de email inválido.',
     };
   }
 
