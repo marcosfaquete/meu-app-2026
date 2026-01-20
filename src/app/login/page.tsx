@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { loginUser } from '../actions/auth';
+import { supabase } from '@/lib/supabase';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 
@@ -16,17 +17,38 @@ export default function LoginPage() {
     setError('');
 
     try {
-      const result = await loginUser(formData);
+      const email = formData.get('email') as string;
+      const password = formData.get('password') as string;
 
-      if (result.success) {
-        // Redireciona para a página protegida após login bem-sucedido
-        router.push('/dashboard');
+      // Faz login diretamente no cliente para garantir que a sessão seja estabelecida
+      const { data, error: authError } = await supabase.auth.signInWithPassword({
+        email,
+        password,
+      });
+
+      if (authError) {
+        // Mensagens de erro mais específicas
+        if (authError.message.includes('Invalid login credentials')) {
+          setError('Email ou senha incorretos.');
+        } else if (authError.message.includes('Email not confirmed')) {
+          setError('Por favor, confirme seu email antes de fazer login.');
+        } else {
+          setError(authError.message || 'Erro ao fazer login.');
+        }
+        setIsLoading(false);
+        return;
+      }
+
+      if (data.user) {
+        // Login bem-sucedido, redireciona para a área VIP
+        router.push('/vip');
+        router.refresh(); // Força atualização do estado
       } else {
-        setError(result.message);
+        setError('Erro ao fazer login.');
+        setIsLoading(false);
       }
     } catch (err) {
       setError('Erro ao fazer login. Tente novamente.');
-    } finally {
       setIsLoading(false);
     }
   }
