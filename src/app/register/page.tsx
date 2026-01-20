@@ -1,11 +1,13 @@
 'use client';
 
 import { useState } from 'react';
+import { useRouter } from 'next/navigation';
 import { registerUser } from '../actions/auth';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 
 export default function RegisterPage() {
+  const router = useRouter();
   const [error, setError] = useState<string>('');
   const [success, setSuccess] = useState<string>('');
   const [isLoading, setIsLoading] = useState(false);
@@ -19,10 +21,8 @@ export default function RegisterPage() {
       const result = await registerUser(formData);
 
       if (result.success) {
-        setSuccess(result.message);
-        // Limpa o formulário após sucesso
-        const form = document.getElementById('register-form') as HTMLFormElement;
-        form?.reset();
+        // Redireciona para a página de login com mensagem de sucesso
+        router.push('/login?registered=1');
       } else {
         setError(result.message);
       }

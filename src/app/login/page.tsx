@@ -1,26 +1,39 @@
 'use client';
 
-import { useState } from 'react';
-import { useRouter } from 'next/navigation';
+import { useEffect, useState } from 'react';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { loginUser } from '../actions/auth';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 
 export default function LoginPage() {
   const router = useRouter();
+  const searchParams = useSearchParams();
   const [error, setError] = useState<string>('');
+  const [success, setSuccess] = useState<string>('');
   const [isLoading, setIsLoading] = useState(false);
+
+  // Exibe mensagem amigável após registro bem-sucedido
+  useEffect(() => {
+    const registered = searchParams.get('registered');
+    if (registered === '1') {
+      setSuccess(
+        'Conta criada com sucesso! Verifique seu email para confirmar a conta.'
+      );
+    }
+  }, [searchParams]);
 
   async function handleSubmit(formData: FormData) {
     setIsLoading(true);
     setError('');
+    setSuccess('');
 
     try {
       const result = await loginUser(formData);
 
       if (result.success) {
-        // Redireciona para a página de blog após login bem-sucedido
-        router.push('/blog');
+        // Redireciona para a página protegida após login bem-sucedido
+        router.push('/dashboard');
       } else {
         setError(result.message);
       }
@@ -45,7 +58,13 @@ export default function LoginPage() {
             <h2 className="text-3xl font-bold text-[#86af13] mb-6 text-center">
               Login
             </h2>
-            
+
+            {success && (
+              <div className="mb-4 p-3 bg-green-500/20 border border-green-500 rounded text-green-300 text-sm">
+                {success}
+              </div>
+            )}
+
             {error && (
               <div className="mb-4 p-3 bg-red-500/20 border border-red-500 rounded text-red-300 text-sm">
                 {error}
