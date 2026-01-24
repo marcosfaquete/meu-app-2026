@@ -1,5 +1,6 @@
 'use client';
 
+import { useEffect } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { motion, Variants } from 'framer-motion';
@@ -42,6 +43,13 @@ export default function Home() {
       } 
     },
   };
+
+  useEffect(() => {
+    // Força a rolagem para o topo (coordenadas 0, 0) assim que o componente é montado.
+    // Isso garante que o usuário sempre veja a seção Hero (Início) primeiro,
+    // ignorando âncoras na URL ou posições de rolagem salvas.
+    window.scrollTo(0, 0);
+  }, []);
 
   return (
     <div className="min-h-screen flex flex-col bg-black text-white">
