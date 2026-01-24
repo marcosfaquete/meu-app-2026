@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Parkinsans } from "next/font/google";
 import "./globals.css";
 import { VisitorTracker } from "@/VisitorTracker";
+import VisitorCounterDisplay from "./VisitorCounterDisplay";
 
 const parkinsans = Parkinsans({
   variable: "--font-parkinsans",
@@ -25,6 +26,7 @@ export default function RootLayout({
         className={`${parkinsans.variable} antialiased`}
       >
         <VisitorTracker />
+        <VisitorCounterDisplay />
         {children}
       </body>
     </html>
