@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import { Parkinsans } from "next/font/google";
 import "./globals.css";
 import { VisitorTracker } from "@/VisitorTracker";
+import VisitorCounterDisplay from "@/components/VisitorCounterDisplay";
+import SmoothScrolling from "@/components/SmoothScrolling";
 
 const parkinsans = Parkinsans({
   variable: "--font-parkinsans",
@@ -24,7 +26,9 @@ export default function RootLayout({
       <body
         className={`${parkinsans.variable} antialiased`}
       >
+        <SmoothScrolling />
         <VisitorTracker />
+        <VisitorCounterDisplay />
         {children}
       </body>
     </html>
