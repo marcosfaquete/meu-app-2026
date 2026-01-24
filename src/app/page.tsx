@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { motion, Variants } from 'framer-motion';
@@ -8,6 +8,9 @@ import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 
 export default function Home() {
+  // Estado para controlar se o componente já foi montado
+  const [isMounted, setIsMounted] = useState(false);
+
   // Configuração das animações
   const containerVariants: Variants = {
     hidden: { opacity: 0 },
@@ -45,10 +48,17 @@ export default function Home() {
   };
 
   useEffect(() => {
+    // Desabilita a restauração automática de scroll do navegador
+    if ('scrollRestoration' in history) {
+      history.scrollRestoration = 'manual';
+    }
+
     // Força a rolagem para o topo (coordenadas 0, 0) assim que o componente é montado.
-    // Isso garante que o usuário sempre veja a seção Hero (Início) primeiro,
-    // ignorando âncoras na URL ou posições de rolagem salvas.
     window.scrollTo(0, 0);
+
+    // Habilita os IDs das seções após o carregamento inicial.
+    // Isso impede que o navegador pule para #projetos antes do React assumir.
+    setIsMounted(true);
   }, []);
 
   return (
@@ -57,7 +67,8 @@ export default function Home() {
       
       <main className="flex-1">
         {/* Seção INÍCIO (Hero) */}
-        <section id="inicio" className="min-h-screen flex flex-col md:flex-row items-center justify-center gap-8 md:gap-12 px-4 md:px-8 py-24 md:py-36 text-left">
+        {/* O ID só é atribuído se isMounted for true */}
+        <section id={isMounted ? "inicio" : undefined} className="min-h-screen flex flex-col md:flex-row items-center justify-center gap-8 md:gap-12 px-4 md:px-8 py-24 md:py-36 text-left">
           {/* Imagem de Perfil */}
           <motion.div 
             className="flex-shrink-0"
@@ -100,7 +111,7 @@ export default function Home() {
         </section>
 
         {/* Seção SOBRE */}
-        <section id="sobre" className="min-h-screen flex flex-col items-center justify-center px-4 md:px-8 py-20 bg-[#0a0a0a]">
+        <section id={isMounted ? "sobre" : undefined} className="min-h-screen flex flex-col items-center justify-center px-4 md:px-8 py-20 bg-[#0a0a0a]">
           <h2 className="text-4xl font-bold text-[#86af13] mb-8">Sobre Mim</h2>
           <p className="max-w-2xl text-center text-gray-300 text-lg leading-relaxed">
             Aqui você pode contar um pouco mais sobre sua jornada. Como é um site de página única, 
@@ -109,7 +120,7 @@ export default function Home() {
         </section>
 
         {/* Seção PROJETOS */}
-        <section id="projetos" className="min-h-screen flex flex-col items-center justify-center px-4 md:px-8 py-20">
+        <section id={isMounted ? "projetos" : undefined} className="min-h-screen flex flex-col items-center justify-center px-4 md:px-8 py-20">
           <h2 className="text-4xl font-bold text-[#86af13] mb-12">Meus Projetos</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 w-full max-w-6xl">
             {/* Exemplo de Card de Projeto */}
@@ -121,6 +132,11 @@ export default function Home() {
             {/* Adicione mais cards aqui */}
             <div className="bg-[#111] p-6 rounded-2xl border border-white/10 hover:border-[#007bff] transition-all hover:-translate-y-2">
               <div className="h-40 bg-gray-800 rounded-lg mb-4"></div>
+              <h3 className="text-xl font-bold mb-2">Nome do Projeto</h3>
+              <p className="text-gray-400 text-sm">Uma breve descrição do projeto incrível que você desenvolveu.</p>
+            </div>
+            <div className="bg-[#111] p-6 rounded-2xl border border-white/10 hover:border-[#007bff] transition-all hover:-translate-y-2">
+              <div className="h-40 bg-gray-800 rounded-lg mb-4"></div>
               <h3 className="text-xl font-bold mb-2">Outro Projeto</h3>
               <p className="text-gray-400 text-sm">Tecnologias usadas: React, Next.js, Tailwind.</p>
             </div>
@@ -128,7 +144,7 @@ export default function Home() {
         </section>
 
         {/* Seção CONTATO */}
-        <section id="contato" className="min-h-[50vh] flex flex-col items-center justify-center px-4 md:px-8 py-20 bg-[#0a0a0a]">
+        <section id={isMounted ? "contato" : undefined} className="min-h-[50vh] flex flex-col items-center justify-center px-4 md:px-8 py-20 bg-[#0a0a0a]">
           <h2 className="text-4xl font-bold text-[#86af13] mb-8">Vamos Conversar?</h2>
           <p className="text-gray-300 mb-8 text-center">
             Estou sempre aberto a novas oportunidades e projetos interessantes.
