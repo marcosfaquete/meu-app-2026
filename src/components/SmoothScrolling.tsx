@@ -5,7 +5,7 @@ import Lenis from 'lenis'
 export default function SmoothScrolling() {
   useEffect(() => {
     const lenis = new Lenis({
-      lerp: 0.1, // Suavidade (menor = mais suave/lento)
+      lerp: 7.1, // Suavidade (menor = mais suave/lento)
       duration: 1.5, // Duração da rolagem
       smoothWheel: true,
     })
