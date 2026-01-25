@@ -17,7 +17,7 @@ export default function Home() {
     visible: {
       opacity: 1,
       transition: {
-        staggerChildren: 0.3, // Tempo entre cada item de texto aparecendo
+        staggerChildren: 1.0, // Tempo entre cada item de texto aparecendo
       },
     },
   };
@@ -33,7 +33,7 @@ export default function Home() {
   };
 
   const imageVariants: Variants = {
-    hidden: { opacity: 0, scale: 0.5, rotate: -10 },
+    hidden: { opacity: 0, scale: 0.5, rotate: -80 },
     visible: { 
       opacity: 1, 
       scale: 1, 
@@ -42,7 +42,7 @@ export default function Home() {
         type: "spring",
         stiffness: 260,
         damping: 20,
-        duration: 1.5 
+        duration: 2.0 
       } 
     },
   };
