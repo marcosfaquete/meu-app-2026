@@ -2,7 +2,6 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { loginUser } from '../actions/auth';
 import { supabase } from '@/lib/supabase';
 import Header from '../../components/Header';
 import Footer from '../../components/Footer';
