@@ -23,7 +23,7 @@ export default function Home() {
   };
 
   const itemVariants: Variants = {
-    hidden: { opacity: 0, y: 30, filter: 'blur(10px)' }, // Começa invisível, descido e desfocado
+    hidden: { opacity: 0, y: 250, filter: 'blur(10px)' }, // Começa invisível, descido e desfocado
     visible: { 
       opacity: 1, 
       y: 0, 
@@ -33,7 +33,7 @@ export default function Home() {
   };
 
   const imageVariants: Variants = {
-    hidden: { opacity: 0, scale: 0.5, rotate: -80 },
+    hidden: { opacity: 0, scale: 0.5, rotate: -50 },
     visible: { 
       opacity: 1, 
       scale: 1, 
@@ -42,7 +42,8 @@ export default function Home() {
         type: "spring",
         stiffness: 260,
         damping: 20,
-        duration: 2.0 
+        duration: 500, 
+        delay: 1.0,
       } 
     },
   };
